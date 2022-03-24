@@ -15,6 +15,7 @@ start:
   int 0x10
   call kernel_main
   jmp $ ; jump to current address = infinite loop
+  section .bss
   ; padding and magic number
   times 510 - ($-$$) db 0
   dw 0xaa55 
