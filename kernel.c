@@ -10,8 +10,7 @@ void say_hello(void)
 	while(j < 80 * 25 * 2) {
 		/* blank character */
 		vidptr[j] = ' ';
-		/* attribute-byte - light grey on black screen */
-		vidptr[j+1] = 0x07; 		
+		vidptr[j+1] = 0x11; 		
 		j = j + 2;
 	}
 
@@ -21,8 +20,7 @@ void say_hello(void)
 	while(str[j] != '\0') {
 		/* the character's ascii */
 		vidptr[i] = str[j];
-		/* attribute-byte: give character black bg and light grey fg */
-		vidptr[i+1] = 0x07;
+		vidptr[i+1] = 0x11;
 		++j;
 		i = i + 2;
 	}
