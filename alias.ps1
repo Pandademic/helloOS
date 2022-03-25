@@ -5,6 +5,6 @@ function devfunc{
 function runfunc{
   qemu-system-i386 kernel
 }
-Set-Alias -Name Run-Dev -Value devfunc
-Set-Alias -Name Run-Os -Value runfunc
+Set-Alias -Name dev -Value devfunc
+Set-Alias -Name run -Value runfunc
 
