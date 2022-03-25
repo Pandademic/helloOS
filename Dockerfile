@@ -1,5 +1,5 @@
 FROM nixos/nix
-RUN mkdir dev
-WORKDIR dev
+RUN mkdir osdev
+WORKDIR osdev
 COPY .
 RUN nix-shell --pure
