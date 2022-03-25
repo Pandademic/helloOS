@@ -1,12 +1,10 @@
-function dev {
+function devfunc{
   docker build -t helloos .
   docker run -it helloos
 }
-function run {
+function runfunc{
   qemu-system-i386 kernel
 }
-
-	Set-Alias -Name dev -Value dev
-
-	Set-Alias -Name run -Value run
+Set-Alias -Name dev -Value devfunc
+Set-Alias -Name run -Value runfunc
 
