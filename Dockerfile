@@ -2,4 +2,5 @@ FROM nixos/nix
 RUN mkdir osdev
 WORKDIR osdev
 COPY . .
-RUN nix-shell --pure
+RUN chmod +x build.sh
+ENTRYPOINT["nix-shell","--pure"]
