@@ -1,21 +1,51 @@
+; based on the work of Arjun Sreedharan <https://arjunsreedharan.org/>
+; ORIGNAL License: GPL version 2 or higher http://www.gnu.org/licenses/gpl.html
+
 bits 32
 section .text
+        ;multiboot spec
+        align 4
+        dd 0x1BADB002              ;magic
+        dd 0x00                    ;flags
+        dd - (0x1BADB002 + 0x00)   ;checksum. m+f+c should be zero
+
 global start
-extern kernel_main
+global keyboard_handler
+global read_port
+global write_port
+global load_idt
+
+extern kmain 	
+extern keyboard_handler_main
+
+read_port:
+	mov edx, [esp + 4]
+			;al is the lower 8 bits of eax
+	in al, dx	;dx is the lower 16 bits of edx
+	ret
+
+write_port:
+	mov   edx, [esp + 4]    
+	mov   al, [esp + 4 + 4]  
+	out   dx, al  
+	ret
+
+load_idt:
+	mov edx, [esp + 4]
+	lidt [edx]
+	sti 				;turn on interrupts
+	ret
+
+keyboard_handler:                 
+	call    keyboard_handler_main
+	iretd
+
 start:
-  mov ah, 0x0e ; tty mode
-  mov al, 'H'
-  int 0x10
-  mov al, 'e'
-  int 0x10
-  mov al, 'l'
-  int 0x10
-  int 0x10 ; 'l' is still on al
-  mov al, 'o'
-  int 0x10
-  call kernel_main
-  jmp $ ; jump to current address = infinite loop
-  section .bss
-  ; padding and magic number
-  times 510 - ($-$$) db 0
-  dw 0xaa55 
+	cli 				;block interrupts
+	mov esp, stack_space
+	call kmain
+	hlt 				;halt the CPU
+
+section .bss
+resb 8192; 8KB for stack
+stack_space:
