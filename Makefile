@@ -1,7 +1,8 @@
 dev:
-  docker build -t helloOS . | docker run -it helloOS
+  docker build -t helloos .
+  docker run -it helloos
 get-bin:
-  docker cp /osdev/helloos ~
+  docker cp helloos:/osdev/helloos .
 run:
   qemu-system-i386 -kernel kernel
 build:
