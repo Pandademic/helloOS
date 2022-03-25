@@ -5,6 +5,6 @@ mkShell {
     nasm
     coreutils
     gcc 
-    mold
+    #mold
   ];
 }
